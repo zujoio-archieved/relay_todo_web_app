@@ -87,18 +87,35 @@ const AddTodo = props => {
   };
 
   return (
-    <div style={{textAlign:"center"}}>
-      <h1
-        style={{
-          width: "100%",
-          fontSize: "80px",
-          fontWeight: "bold",
-          textAlign: "center",
-          color: `${Color.PRIMARY}`
-        }}
-      >
-     Todos
-      </h1>
+    <div style={{ textAlign: "center" }}>
+      <>
+        {" "}
+        <h1
+          style={{
+            width: "100%",
+            fontSize: "80px",
+            fontWeight: "bold",
+            textAlign: "center",
+            color: `${Color.PRIMARY}`
+          }}
+        >
+          Todos
+        </h1>
+        <select
+          style={{
+            color: "white",
+            padding: "8px 16px",
+            border: "1px solid transparent",
+            backgroundColor: `${Color.PRIMARY}`,
+            borderColor:
+              "transparent transparent rgba(0, 0, 0, 0.1) transparent"
+          }}
+        >
+          <option>Purple </option>
+          <option>Blue</option>
+          <option>Red</option>
+        </select>
+      </>
 
       <input
         style={{
