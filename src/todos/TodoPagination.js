@@ -8,6 +8,7 @@ import { useEnvironmentContext } from '../environmentContextDef';
 import TodoEditedSubscription from './subscriptions/TodoEditedSubscription';
 import TodoDeletedSubscription from './subscriptions/TodoDeletedSubscription';
 import CompletedTodosDeletedSubscription from './subscriptions/CompletedTodosDeletedSubscription';
+import TodoContainer from './TodoContainer';
 
 const TodoPagination = (props) => {
     const fragmentSpec = graphql`
@@ -76,7 +77,7 @@ const TodoPagination = (props) => {
 
     const { environment } = useEnvironmentContext()
 
-    TodoCreatedSubscription.subscribe(environment, props.viewer.id)
+    // TodoCreatedSubscription.subscribe(environment, props.viewer.id)
     TodoEditedSubscription.subscribe(environment, props.viewer.id)
     TodoDeletedSubscription.subscribe(environment, props.viewer.id)
     CompletedTodosDeletedSubscription.subscribe(environment, props.viewer.id)
@@ -84,7 +85,8 @@ const TodoPagination = (props) => {
     return (
         <div>
             <AddTodo viewerId={props.viewer.id} />
-            <TodoList viewerId={props.viewer.id} edges={viewer.todos.edges} />
+            <TodoContainer viewerId={props.viewer.id} edges={viewer.todos.edges} />
+            {/* <TodoList viewerId={props.viewer.id} edges={viewer.todos.edges} /> */}
         </div>
     )
 }
