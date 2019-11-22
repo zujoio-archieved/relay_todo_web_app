@@ -1,26 +1,53 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Environment, Store, RecordSource } from 'relay-runtime'
+import { RelayEnvironmentProvider } from "relay-hooks";
+// import modernEnvironment, { network } from "../Environment";
+import modernEnvironment, { network } from './Environment'
+import { EnvironmentContext } from "./environmentContextDef";
+
+// import { useQuery, graphql } from 'relay-hooks'
+
 import './App.css';
+import AppContainer from './navigation/AppContainer';
+import AppRouter from './navigation/AppRouter';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      environment: modernEnvironment,
+    }
+  }
+
+  _resetRelayStore = async () => {
+    const res = await new Promise((resolve, reject) => {
+      this.setState({ environment: null }, () => {
+        const store = new Store(new RecordSource());
+
+        const newEnvironment = new Environment({ network, store })
+
+        this.setState({ environment: newEnvironment }, () => {
+          resolve("STORE HAS BEEN RESET!")
+        })
+      })
+    })
+    return res
+  }
+
+  render() {
+    return (
+      <EnvironmentContext.Provider
+        value={{
+          environment: this.state.environment,
+          resetEnvironment: this._resetRelayStore
+        }}
+      >
+        <RelayEnvironmentProvider environment={this.state.environment}>
+
+          <AppRouter />
+          {/* <AppContainer /> */}
+        </RelayEnvironmentProvider>
+      </EnvironmentContext.Provider>
+    )
+  };
 }
-
-export default App;
