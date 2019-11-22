@@ -83,11 +83,14 @@ const TodoPagination = (props) => {
     CompletedTodosDeletedSubscription.subscribe(environment, props.viewer.id)
 
     return (
-        <div>
+      
+       <div style={{width:"34%",marginLeft:"34%",borderRadius:25}}>
             <AddTodo viewerId={props.viewer.id} />
-            <TodoContainer viewerId={props.viewer.id} edges={viewer.todos.edges} />
+            <TodoContainer viewerId={props.viewer.id} _loadMore={_loadMore} edges={viewer.todos.edges} />
             {/* <TodoList viewerId={props.viewer.id} edges={viewer.todos.edges} /> */}
         </div>
+ 
+      
     )
 }
 

@@ -22,7 +22,9 @@ const TodoContainer = props => {
   });
 
   return (
-    <>
+    // <div style={{backgroundColor:"yellow",  width: "30%",
+    // marginLeft: "34%",}}>
+    <div>
       <div>
         <h1
           style={{
@@ -46,7 +48,21 @@ const TodoContainer = props => {
             : inCompletedTodos
         }
       />
-
+      <div style={{textAlign:"center"}}>
+      <input
+      onClick={()=>props._loadMore()}
+        type="button"
+        style={{
+          display: "inline",
+          borderRadius: "10px",
+          marginLeft: "10px",
+          border: `1px solid ${Color.PRIMARY}`,
+          padding: "10px",
+          color: displayer == display.ALL ? Color.PRIMARY : "black"
+        }}
+        value="Load More"
+      />
+      </div>
       <ul
         style={{
           textAlign: "center",
@@ -56,7 +72,7 @@ const TodoContainer = props => {
         <li
           style={{
             display: "inline",
-            borderRadius:"10px",
+            borderRadius: "10px",
             marginLeft: "10px",
             border: `1px solid ${Color.PRIMARY}`,
             padding: "10px",
@@ -72,7 +88,7 @@ const TodoContainer = props => {
           style={{
             display: "inline",
             marginLeft: "10px",
-            borderRadius:"10px",
+            borderRadius: "10px",
             border: `1px solid ${Color.PRIMARY}`,
             padding: "10px",
             color: displayer == display.COMPLETED ? Color.PRIMARY : "black"
@@ -86,7 +102,7 @@ const TodoContainer = props => {
         <li
           style={{
             display: "inline",
-            borderRadius:"10px",
+            borderRadius: "10px",
             marginLeft: "10px",
             border: `1px solid ${Color.PRIMARY}`,
             padding: "10px",
@@ -98,9 +114,8 @@ const TodoContainer = props => {
         >
           Incomplete
         </li>
-      
       </ul>
-    </>
+    </div>
   );
 };
 

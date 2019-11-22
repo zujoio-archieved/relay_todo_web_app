@@ -3,7 +3,8 @@ import Todo from "./Todo";
 
 const TodoList = props => {
   return (
-    <div>
+    <div >
+        {/* style={{ height: "200px", overflow: "scroll" }}> */}
       {props.edges.map(edge => {
         return (
           <div key={edge.node.id}>

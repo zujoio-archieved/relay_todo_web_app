@@ -18,7 +18,7 @@ const TodoViewer = () => {
   const { props, error, retry, cached } = useQuery({
     query: TodoViewerQuery,
     variables: {
-      first: 10,
+      first: 3,
       cursor: null,
       completed: null
     }

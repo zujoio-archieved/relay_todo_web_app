@@ -154,15 +154,16 @@ const Todo = props => {
     });
   };
 
-  console.log(props);
+
 
   return (
     <div
       style={{
         flexDirection: "row",
-        width: "34%",
-        marginLeft: "34%",
-        marginTop: 20
+        // width: "34%",
+        // marginLeft: "34%",
+        marginTop: 20,
+      
       }}
     >
       {props.item.node.completed ? (
