@@ -1,4 +1,4 @@
-const host = "192.168.0.180"
+const host = "localhost"
 const port = "8080"
 const httpEndPointUrl = "graphql";
 const wsEndPointUrl = "subscriptions";
