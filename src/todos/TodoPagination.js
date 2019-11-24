@@ -9,8 +9,11 @@ import TodoEditedSubscription from './subscriptions/TodoEditedSubscription';
 import TodoDeletedSubscription from './subscriptions/TodoDeletedSubscription';
 import CompletedTodosDeletedSubscription from './subscriptions/CompletedTodosDeletedSubscription';
 import TodoContainer from './TodoContainer';
+import ThemeChangedSubscription from './subscriptions/ThemeChangedSubscription';
+import { useThemeContext } from '../themeContextDef';
 
 const TodoPagination = (props) => {
+    const { theme } = useThemeContext()
     const fragmentSpec = graphql`
     fragment TodoPagination_user on User
     @argumentDefinitions(
@@ -62,7 +65,7 @@ const TodoPagination = (props) => {
 
         loadMore(
             connectionConfig,
-            1, // Fetch the next 10 feed items
+            10, // Fetch the next 10 feed items
             error => {
                 if (error) {
                     console.log(error);
@@ -77,13 +80,14 @@ const TodoPagination = (props) => {
 
     const { environment } = useEnvironmentContext()
 
-    // TodoCreatedSubscription.subscribe(environment, props.viewer.id)
+    TodoCreatedSubscription.subscribe(environment, props.viewer.id)
     TodoEditedSubscription.subscribe(environment, props.viewer.id)
     TodoDeletedSubscription.subscribe(environment, props.viewer.id)
     CompletedTodosDeletedSubscription.subscribe(environment, props.viewer.id)
+    ThemeChangedSubscription.subscribe(environment, props.viewer.id)
 
     return (
-        <div style={{ width: "34%", marginLeft: "34%", borderRadius: 25, height: "100%" }}>
+        <div style={{ borderRadius: 25, height: "100%", backgroundColor: theme.light, margin: "0 auto", paddingLeft: 300, paddingRight: 300 }}>
             <AddTodo viewerId={props.viewer.id} />
             <TodoContainer viewerId={props.viewer.id} _loadMore={_loadMore} edges={viewer.todos.edges} />
             {/* <TodoList viewerId={props.viewer.id} edges={viewer.todos.edges} /> */}

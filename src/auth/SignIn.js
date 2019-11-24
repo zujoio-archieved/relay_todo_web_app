@@ -8,10 +8,12 @@ import { useEnvironmentContext } from "../environmentContextDef";
 import { LocalStorage } from "../utils/localstorage";
 import { ROUTES_CONSTANTS } from "../navigation/AppRouter";
 import { Color } from "../utils/color";
+import { useThemeContext } from "../themeContextDef";
 
 const SignIn = props => {
   const history = useHistory();
   const { resetEnvironment } = useEnvironmentContext();
+  const { theme } = useThemeContext()
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +49,7 @@ const SignIn = props => {
           window.alert(message);
         }
       },
-      onError: error => {}
+      onError: error => { }
     }
   );
 
@@ -67,14 +69,14 @@ const SignIn = props => {
       <div>
         <input
           style={{
-            color: `${Color.PRIMARY}`,
+            color: `${theme.primary}`,
             position: "relative",
             lineHeight: 2,
             padding: 10,
             width: "400px",
             marginTop: "10px",
             backgroundColor: "rgba(0, 0, 0, 0.003)",
-            border: `1px solid ${Color.PRIMARY}`
+            border: `1px solid ${theme.primary}`
           }}
           placeholder={placeholder}
           value={value}
@@ -96,7 +98,7 @@ const SignIn = props => {
           fontSize: "80px",
           fontWeight: "bold",
           textAlign: "center",
-          color: `${Color.PRIMARY}`
+          color: `${theme.primary}`
         }}
       >
         Sign in
@@ -108,7 +110,7 @@ const SignIn = props => {
 
         <button
           style={{
-            backgroundColor: `${Color.PRIMARY}`,
+            backgroundColor: `${theme.primary}`,
             padding: "15px 32px",
             textAlign: "center",
             fontSize: "16px",
@@ -125,7 +127,7 @@ const SignIn = props => {
       </form>
       <div style={{ marginTop: "10px" }}>
         <Link
-          style={{ textDecoration: "none", color: `${Color.PRIMARY}` }}
+          style={{ textDecoration: "none", color: `${theme.primary}` }}
           to={ROUTES_CONSTANTS.SIGN_UP}
         >
           Sign Up ?

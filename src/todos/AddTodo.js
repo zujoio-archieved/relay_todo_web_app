@@ -4,9 +4,12 @@ import { useMutation } from "relay-hooks";
 import { ConnectionHandler } from "relay-runtime";
 import graphql from "babel-plugin-relay/macro";
 import { Color } from "../utils/color";
+import { useThemeContext } from "../themeContextDef";
 // import uuid from "uuid"
 
 const AddTodo = props => {
+  const { theme, availableThemes } = useThemeContext()
+
   const [title, setTitle] = useState("");
 
   const [mutate, { loading }] = useMutation(graphql`
@@ -26,6 +29,21 @@ const AddTodo = props => {
       }
     }
   `);
+
+  const [changeThemeMutate, { loading: ctloading }] = useMutation(
+    graphql`
+  mutation AddTodoChangeThemeMutation($input:changeThemeInput!) {
+      changeTheme(input:$input) {
+          theme {
+              index
+              name
+              primary
+              dark
+              light
+          }
+      }
+  }`
+  )
 
   const addTodo = () => {
     if (title.length !== 0) {
@@ -76,6 +94,8 @@ const AddTodo = props => {
             });
             if (!todoExists) {
               sharedUpdater(store, props.viewerId, newEdge);
+            } else {
+              return true
             }
           }
         },
@@ -96,37 +116,63 @@ const AddTodo = props => {
             fontSize: "80px",
             fontWeight: "bold",
             textAlign: "center",
-            color: `${Color.PRIMARY}`
+            color: `${theme.dark}`
           }}
         >
-          Todos
+          todos
         </h1>
         <select
           style={{
             color: "white",
             padding: "8px 16px",
             border: "1px solid transparent",
-            backgroundColor: `${Color.PRIMARY}`,
+            backgroundColor: `${theme.dark}`,
             borderColor:
               "transparent transparent rgba(0, 0, 0, 0.1) transparent"
           }}
+          onChange={e => {
+            const selevtedValue = availableThemes[e.target.value]
+            changeThemeMutate({
+              variables: { input: { index: selevtedValue.index } },
+              optimisticUpdater: store => {
+                const viewerProxy = store.get(props.viewerId)
+                const proxyTheme = viewerProxy.getLinkedRecord("theme")
+                proxyTheme.setValue(selevtedValue.index, "index")
+                proxyTheme.setValue(selevtedValue.name, "name")
+                proxyTheme.setValue(selevtedValue.light, "light")
+                proxyTheme.setValue(selevtedValue.primary, "primary")
+                proxyTheme.setValue(selevtedValue.dark, "dark")
+              },
+              updater: store => {
+                const changeTheme = store.getRootField("changeTheme")
+                const viewerProxy = store.get(props.viewerId)
+                if (viewerProxy && changeTheme) {
+                  viewerProxy.setLinkedRecord(changeTheme.getLinkedRecord("theme"), "theme")
+                }
+                console.log({ viewerProxy, changeTheme })
+              }
+            })
+          }}
+          value={theme.index}
         >
-          <option>Purple </option>
-          <option>Blue</option>
-          <option>Red</option>
+          {availableThemes.map(avt => {
+            return <option value={avt.index}>{avt.name}</option>
+          })}
+          {/* <option>Blue</option>
+          <option>Red</option> */}
         </select>
       </>
 
       <input
         style={{
-          color: `${Color.PRIMARY}`,
+          color: `${theme.dark}`,
           position: "relative",
           lineHeight: 2,
           padding: 10,
           width: "400px",
           marginTop: "10px",
           backgroundColor: "rgba(0, 0, 0, 0.003)",
-          border: `1px solid ${Color.PRIMARY}`
+          border: `1px solid ${theme.dark}`
         }}
         placeholder="Add Todo"
         value={title}

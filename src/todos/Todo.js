@@ -4,6 +4,7 @@ import { ConnectionHandler } from "relay-runtime";
 import { useMutation } from "relay-hooks";
 import graphql from "babel-plugin-relay/macro";
 import { Color } from "../utils/color";
+import { useThemeContext } from "../themeContextDef";
 const Delete = ({ color, onClick, style }) => {
   return (
     <svg
@@ -88,6 +89,8 @@ const Completed = ({ color, onClick }) => {
   );
 };
 const Todo = props => {
+  const {theme} = useThemeContext()
+  
   const [editMutate, { loading: editTodoLoading }] = useMutation(
     graphql`
       mutation TodoEditMutation($input: editTodoInput!) {
@@ -171,20 +174,20 @@ const Todo = props => {
           onClick={() => {
             editTodoMutation(props.item.node.id, !props.item.node.completed);
           }}
-          color={Color.PRIMARY}
+          color={theme.primary}
         />
       ) : (
         <Uncompleted
           onClick={() => {
             editTodoMutation(props.item.node.id, !props.item.node.completed);
           }}
-          color={Color.PRIMARY}
+          color={theme.primary}
         />
       )}
 
       <p
         style={{
-          color: Color.PRIMARY,
+          color: theme.primary,
           display: "inline",
           fontSize: 30,
           margin: 20,
@@ -198,7 +201,7 @@ const Todo = props => {
         onClick={() => {
           deleteTodoMutation(props.item.node.id);
         }}
-        color={Color.PRIMARY}
+        color={theme.primary}
       />
     </div>
   );

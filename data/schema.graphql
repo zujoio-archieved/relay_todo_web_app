@@ -1,10 +1,20 @@
 # source: http://localhost:8080/graphql
-# timestamp: Fri Nov 22 2019 22:04:43 GMT+0530 (India Standard Time)
+# timestamp: Sun Nov 24 2019 06:05:32 GMT+0530 (India Standard Time)
 
 schema {
   query: RootQuery
   mutation: RootMutation
   subscription: RootSubscription
+}
+
+input changeThemeInput {
+  index: Int
+  clientMutationId: String
+}
+
+type changeThemePayload {
+  theme: userTheme
+  clientMutationId: String
 }
 
 type completedTodosDeleted {
@@ -104,6 +114,7 @@ type registerPayload {
 type RootMutation {
   register(input: registerInput!): registerPayload
   login(input: loginInput!): loginPayload
+  changeTheme(input: changeThemeInput!): changeThemePayload
   createTodo(input: createTodoInput!): createTodoPayload
   editTodo(input: editTodoInput!): editTodoPayload
   deleteCompletedTodos(input: deleteCompletedTodosInput!): deleteCompletedTodosPayload
@@ -119,6 +130,11 @@ type RootSubscription {
   todoEdited(viewerId: String): todoEdited
   todoDeleted(viewerId: String): todoDeleted
   completedTodosDeleted(viewerId: String): completedTodosDeleted
+  themeChanged(viewerId: String): themeChanged
+}
+
+type themeChanged {
+  theme: userTheme
 }
 
 type Todo {
